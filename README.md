@@ -1,6 +1,12 @@
 # ErrorLogUtils
 This package contains an Apex Class and Custom Object to log errors in the database. ESPECIALLY useful for catching errors in async operations such as Future, Queueable, and Schedulable.
 
+Deploy to Salesforce:
+
+<a href="https://githubsfdeploy.herokuapp.com?owner=financialforcedev&amp;repo=apex-mdapi">
+  <img src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png" alt="Deploy to Salesforce" />
+</a>
+
 Usage:
 1. Scenario: inserting records in an async context where 'all or nothing' parameter is set to false.
 ```
@@ -26,9 +32,3 @@ try {
   );
 }
 ```
-
-Deploy to Salesforce:
-
-<a href="https://githubsfdeploy.herokuapp.com?owner=financialforcedev&amp;repo=apex-mdapi">
-  <img src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png" alt="Deploy to Salesforce" />
-</a>
