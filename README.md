@@ -7,6 +7,7 @@ Deploy to Salesforce:
   <img src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png" alt="Deploy to Salesforce" />
 </a>
 
+
 Usage:
 1. Scenario: inserting records in an async context where 'all or nothing' parameter is set to false.
 ```
