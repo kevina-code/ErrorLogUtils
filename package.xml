@@ -22,5 +22,9 @@
         <members>Error_Log__c</members>
         <name>CustomObject</name>
     </types>
+    <types>
+		<members>Error_Log__c-Error Log Layout</members>
+		<name>Layout</name>
+	</types>
     <version>55.0</version>
 </Package>
