@@ -1,12 +1,11 @@
-/** Description:
- * Utils class for creating/managing error logs
- * Error logs help us efficiently track errors incurred from database operations,
- *  ESPECIALLY async database operations like Future, Queueable, Schedulable
+/**
+ * Author     : Kevin Antonioli (braveitnow@pm.me)
+ * Description: Utils class for creating/managing error logs
+ *              Useful ESPECIALLY for logging reportable errors for async database operations like Future, Queueable, Schedulable
+ * Created    : 12.31.2021
  *
- * Created by: Kevin Antonioli: 12.31.2021
  * Revisions:
  * Date : Name : Notes
- *
  */
 public without sharing class ErrorLogUtils {
   public ErrorLogUtils() {
@@ -14,13 +13,13 @@ public without sharing class ErrorLogUtils {
 
   /**
    * @description : method to create error log, given certain params
-   * @param   e (Exception) : the exception that was caught (if applicable)
-   * @param   databaseError (Database.error) : a database error captured from a SaveResult (if applicable)
-   * @param   context (String) : the context under which the error occurred (ex: Account insert)
-   * @param   errorSource (String) : the source (usually an apex class name.method) of the error
-   * @param   referenceId (String) : the Id of a record that the error occurred for (if applicable)
-   * @param   doInsert (Boolean) : whether or not to insert the error log within this method
-   * @return  errorLog (Error_Log__c) : the error log record created by the method
+   * @param   e             the exception that was caught (if applicable)
+   * @param   databaseError database error captured from a SaveResult (if applicable)
+   * @param   context       the context under which the error occurred (ex: Account insert)
+   * @param   errorSource   the source (usually an apex class name.method) of the error
+   * @param   referenceId   the Id of a record that the error occurred for (if applicable)
+   * @param   doInsert      whether or not to insert the error log within this method
+   * @return  errorLog      the error log record created by the method
    **/
   public static Error_Log__c createErrorLog(
     Exception e,
@@ -31,7 +30,7 @@ public without sharing class ErrorLogUtils {
     Boolean doInsert
   ) {
     Error_Log__c errorLog = new Error_Log__c();
-    errorLog.Error_Message__c = e == null ? null : e.getMessage();
+    errorLog.Error_Message__c = e?.getMessage();
     errorLog.Error_Message__c = databaseError != null
       ? databaseError.getMessage()
       : errorLog.Error_Message__c;
@@ -41,13 +40,11 @@ public without sharing class ErrorLogUtils {
     errorLog.Error_Status_Code__c = databaseError == null
       ? null
       : JSON.serialize(databaseError.getStatusCode()).left(255);
-    errorLog.Stack_Trace_String__c = e == null ? null : e.getStackTraceString();
-    errorLog.Line_Number__c = e == null ? null : e.getLineNumber();
-    errorLog.Type__c = e == null ? null : e.getTypeName().Left(255);
-    errorLog.Error_Source__c = errorSource == null
-      ? null
-      : errorSource.left(255);
-    errorLog.Context__c = context == null ? null : context.Left(255);
+    errorLog.Stack_Trace_String__c = e?.getStackTraceString();
+    errorLog.Line_Number__c = e?.getLineNumber();
+    errorLog.Type__c = e?.getTypeName().Left(255);
+    errorLog.Error_Source__c = errorSource?.left(255);
+    errorLog.Context__c = context?.Left(255);
     errorLog.Reference_Id__c = referenceId;
 
     if (doInsert) {
@@ -110,9 +107,10 @@ public without sharing class ErrorLogUtils {
 
   /**
    * @description: process a list of save results for potential errors
-   * @param srList (<Database.SaveResult>) : the list of save results potentially containing errors
-   * @param context (String) : the error context, if applicable (ex: User update)
-   * @param potentialErrorSource (String) : the potential error source, if applicable (ex: AccountTriggerHandler.updateAccountFields)
+   * @param   srList                the list of save results potentially containing errors
+   * @param   context               the error context, if applicable (ex: User update)
+   * @param   potentialErrorSource  the potential error source, if applicable (ex: AccountTriggerHandler.updateAccountFields)
+   * @return  void
    */
   public static void processSaveResults(
     List<Database.SaveResult> srList,
